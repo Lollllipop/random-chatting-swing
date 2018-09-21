@@ -1,8 +1,14 @@
 package client_server_multiRoom_test1_Client;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
 import client_server_multiRoom_test1_Server.ConnectionRequestQueue;
 
-public class ServerConnector extends Thread {
+public class ServerConnector{
 	
 	// Singleton
 	private static ServerConnector instance; 
@@ -19,11 +25,40 @@ public class ServerConnector extends Thread {
 		}
 		return instance;
 	}
-
+	
+	// 필드 선언
+	private InputListener 	inputListener 	= null;
+	private OutputListener	outputListener 	= null;
+	
+	private String 	HOST = "localhost";
+	private int 	PORT = 58001;
+	
+	private Socket 			socket 	= null;
+	private OutputStream 	os 		= null;
+	private InputStream 	is 		= null;
+	
 	// 서버 연결
 	public void connect() {
-		// TODO Auto-generated method stub
-		
+		try {
+			System.out.println("[연결 요청]");
+			
+			socket = new Socket(HOST, PORT);
+			
+			System.out.println("[연결 성공]");
+			
+			os = socket.getOutputStream();
+			is = socket.getInputStream();
+			
+			outputListener = new OutputListener(os);
+			inputListener = new InputListener(is);
+			
+			outputListener.start();
+			inputListener.start();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	// 서버 종료
