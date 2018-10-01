@@ -21,7 +21,7 @@ public class ChatFrame extends JFrame implements ActionListener{
 	JPanel		chatPanel		= null;
 	JPanel		inputPanel		= null;
 	
-	Server server = new Server();
+	ChatManager chatManager = ChatManager.getInstance();
 	
 	ChatFrame() {
 		chatArea 		= new JTextArea(20, 28);
@@ -45,17 +45,17 @@ public class ChatFrame extends JFrame implements ActionListener{
 		
 		this.add(chatPanel);
 		this.add(inputPanel);
+		
+		chatManager.setChatArea(chatArea);
 	
 		this.setVisible(true);
-		
-		
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-
 		if (e.getSource() == submitButton || e.getSource() == chatField) {
-			System.out.println("go!");
+			System.out.println("글을 썼습니다.");
+			chatManager.write(chatField.getText());
 			return;
 		}
 	}

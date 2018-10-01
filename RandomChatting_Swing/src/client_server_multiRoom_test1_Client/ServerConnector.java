@@ -10,7 +10,7 @@ import client_server_multiRoom_test1_Server.ConnectionRequestQueue;
 
 /**
  * <pre>
- * 설명 : 서버와 소켓 연결을 관리해주는 클래스
+ * 설명 : 서버와 소켓 연결만을 관리해주는 클래스
  * <pre>
  *
  * @author Dahan Choi
@@ -62,10 +62,12 @@ public class ServerConnector{
 			os = socket.getOutputStream();
 			is = socket.getInputStream();
 			
-			outputListener = new OutputListener(os);
-			inputListener = new InputListener(is);
+			outputListener 	= OutputListener.getInstance();
+			inputListener 	= new InputListener(is);
 			
-			outputListener.start();
+			outputListener.setOutputStream(os);
+			
+			// 대화 시작
 			inputListener.start();
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
