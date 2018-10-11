@@ -18,6 +18,7 @@ public class InputListener extends Thread{
 	private InputStream is 			= null;
 	private ChatManager chatManager = ChatManager.getInstance();
 	
+	// 생성자
 	public InputListener(InputStream is) {
 		this.is = is;
 	}
@@ -29,8 +30,10 @@ public class InputListener extends Thread{
 			
 			if (inputData.equals("connectedwithopponent")) {
 				chatManager.setConnectedWithOpponent(true);
+				System.out.println("[상대방과 매칭완료]");
 			} else if (inputData.equals("disconnectedwithopponent")) {
 				chatManager.setConnectedWithOpponent(false);
+				System.out.println("[상대방과 연결종료]");
 			} else {
 				chatManager.read(inputData); // 이게 이제 인터페이스에 데이터 전달
 			}

@@ -21,7 +21,6 @@ public class StartFrame extends JFrame implements ActionListener {
 	ServerConnector serverConnector = ServerConnector.getInstance();
 	
 	StartFrame() {
-		// 스윙 UI 구성
 		titleLabel 		= new JLabel("< 랜덤 채팅 프로그램 >");
 		startButton 	= new JButton("시작하기");
 		titlePanel		= new JPanel();
@@ -42,8 +41,11 @@ public class StartFrame extends JFrame implements ActionListener {
 	
 		this.setVisible(true);
 		
-		// 소켓 연결
+		System.out.println(1);
+		
 		serverConnector.connect();
+		
+		System.out.println(2);
 		
 		// 프로그램 종료시
 		addWindowListener(new WindowAdapter() { 

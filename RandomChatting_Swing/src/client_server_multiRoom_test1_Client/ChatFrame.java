@@ -11,8 +11,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import client_server_multiRoom_test1_Server.Server;
-
 public class ChatFrame extends JFrame implements ActionListener{
 	
 	JTextArea 	chatArea		= null;
@@ -54,7 +52,6 @@ public class ChatFrame extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == submitButton || e.getSource() == chatField) {
-			System.out.println("글을 썼습니다.");
 			chatManager.write(chatField.getText());
 			return;
 		}

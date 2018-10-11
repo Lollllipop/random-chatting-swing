@@ -5,13 +5,24 @@ import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * <pre>
+ * 설명 : 가장 베이스가 되는 서버역할을 할 클래스
+ * <pre>
+ *
+ * @author Dahan Choi
+ */
 public class Server {
 	
+	// 필드
 	private ServerSocket serverSocket;
 	
-	private RoomManager 			roomManager 			= new RoomManager();
 	private ConnectionRequestQueue 	connectionRequestQueue 	= ConnectionRequestQueue.getInstance();
+	private Clients					clients					= Clients.getInstance();
+	private RoomManager 			roomManager 			= RoomManager.getInstance();
+	private TaskThreadPool			taskThreadPool			= TaskThreadPool.getInstance();
 	
+	// 메소드
 	public void start() {
 		System.out.println("[서버 실행]");
 		
@@ -29,8 +40,10 @@ public class Server {
 				InetSocketAddress socketAddress = (InetSocketAddress)socket.getRemoteSocketAddress();
 				System.out.println("[연결 성공] - " + socketAddress.getHostName() + " 이 접속");
 				
-				connectionRequestQueue.offer(socket);
-				// 룸매니저에게 전달하기 생성하라고!
+				Client client = new Client(socket);
+				
+				clients.addClient(client);
+				connectionRequestQueue.offer(client);
 			} catch (IOException e) {
 				e.printStackTrace();
 				
@@ -46,7 +59,7 @@ public class Server {
 	public void stop() {
 		System.out.println("[서버 종료]");
 		try {
-//			taskThreadPool.closeThreadPool();
+			taskThreadPool.closeThreadPool();
 			serverSocket.close();
 		} catch (IOException e) {
 			e.printStackTrace();

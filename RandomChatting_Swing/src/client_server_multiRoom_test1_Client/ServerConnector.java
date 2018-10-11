@@ -6,8 +6,6 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import client_server_multiRoom_test1_Server.ConnectionRequestQueue;
-
 /**
  * <pre>
  * 설명 : 서버와 소켓 연결만을 관리해주는 클래스
@@ -17,23 +15,7 @@ import client_server_multiRoom_test1_Server.ConnectionRequestQueue;
  */
 public class ServerConnector{
 	
-	// Singleton
-	private static ServerConnector instance; 
-	
-	private ServerConnector() {};
-	
-	public static ServerConnector getInstance() {
-		if(instance == null) {
-			synchronized (ConnectionRequestQueue.class) {
-				if(instance == null) {
-					instance = new ServerConnector();
-				}
-			}
-		}
-		return instance;
-	}
-	
-	// 필드 선언
+	// 필드
 	private InputListener 	inputListener 	= null;
 	private OutputListener	outputListener 	= null;
 	private Socket 			socket 			= null;
@@ -43,14 +25,23 @@ public class ServerConnector{
 	private String 	HOST = "localhost";
 	private int 	PORT = 58001;
 	
-	// 메소드 선언
-	/**
-	 * <pre>
-	 * 설명 : 서버와 연결을 해주는 메소드
-	 * <pre>
-	 *
-	 * @author	Dahan Choi
-	 */
+	// Singleton
+	private static ServerConnector instance; 
+	
+	private ServerConnector() {};
+	
+	public static ServerConnector getInstance() {
+		if(instance == null) {
+			synchronized (ServerConnector.class) {
+				if(instance == null) {
+					instance = new ServerConnector();
+				}
+			}
+		}
+		return instance;
+	}
+	
+	// 메소드
 	public void connect() {
 		try {
 			System.out.println("[연결 요청]");

@@ -3,44 +3,43 @@ package client_server_multiRoom_test1_Server;
 import java.net.Socket;
 import java.util.concurrent.*;
 
+/**
+ * <pre>
+ * 설명 : 스레드풀을 이용하기 위한 클래스
+ * <pre>
+ *
+ * @author Dahan Choi
+ */
 public class TaskThreadPool {
 	
+	// 필드
 	ExecutorService executorService;
-	SocketList socketList;
 	
-	TaskThreadPool(SocketList socketList) {
+	// Singleton
+	private static TaskThreadPool instance;
+	
+	private TaskThreadPool() {
 		executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-		this.socketList = socketList;
+	};
+	
+	public static TaskThreadPool getInstance() {
+		if (instance == null) {
+			synchronized (TaskThreadPool.class) {
+				if (instance == null) {
+					instance = new TaskThreadPool();
+				}
+			}
+		}
+		return instance;
 	}
 	
-	public void submitTask(Socket socket) {
-		this.executorService.submit(this.createTask(socket));
+	// 메소드
+	public void submitTask(Runnable runnable) {
+		this.executorService.submit(runnable);
 	}
 	
 	public void closeThreadPool() {
-		System.out.println("[쓰레드 풀 종료]");
 		executorService.shutdown();
-	}
-	
-	private Runnable createTask(Socket socket) {
-		Runnable runnable = new Runnable() {
-			@Override
-			public void run() {
-				String nickName;
-				String message;
-
-				nickName = socketList.readStream(socket);
-				socketList.setNickName(nickName);
-				
-				while (true) {
-					message = socketList.readStream(socket);
-					socketList.sendMessageToAll(nickName, message); 
-					System.out.println(nickName + " : " + message);
-				}
-			}
-		};
-		
-		return runnable;
 	}
 	
 }
