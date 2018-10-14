@@ -9,7 +9,7 @@ import java.util.LinkedList;
 
 /**
  * <pre>
- * 설명 : 클라이언트 클래스
+ * 설명 : 클라이언트 클래스 
  * <pre>
  *
  * @author Dahan Choi
