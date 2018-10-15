@@ -12,6 +12,8 @@ import java.io.UnsupportedEncodingException;
  * @author Dahan Choi
  */
 public class OutputListener {
+	// 필드
+	private OutputStream os = null;
 
 	// Singleton
 	private static OutputListener instance;
@@ -29,13 +31,10 @@ public class OutputListener {
 		return instance;
 	}
 	
+	// 메소드
 	public void setOutputStream(OutputStream os) {
 		this.os = os;
 	}
-	
-	// 필드
-	private OutputStream 	os 			= null;
-	private ChatManager 	chatManager = ChatManager.getInstance();
 	
 	public void outputMessage(String message) {
 		try {
@@ -48,5 +47,4 @@ public class OutputListener {
 			e.printStackTrace();
 		}
 	}
-	
 }

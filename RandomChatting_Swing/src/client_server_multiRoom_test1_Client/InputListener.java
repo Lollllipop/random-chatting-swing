@@ -13,14 +13,24 @@ import java.util.LinkedList;
  * @author Dahan Choi
  */
 public class InputListener extends Thread{
-	
 	// 필드
 	private InputStream is 			= null;
-	private ChatManager chatManager = ChatManager.getInstance();
+	private ChatManager chatManager = null;
 	
 	// 생성자
-	public InputListener(InputStream is) {
-		this.is = is;
+	private static InputListener instance;
+	
+	private InputListener() {};
+	
+	public static InputListener getInstance() {
+		if(instance == null) {
+			synchronized (InputListener.class) {
+				if(instance == null) {
+					instance = new InputListener();
+				}
+			}
+		}
+		return instance;
 	}
 	
 	// 메소드
@@ -28,27 +38,26 @@ public class InputListener extends Thread{
 		while (true) {
 			String inputData = getInput();
 			
-			if (inputData.equals("connectedwithopponent")) {
+			if (inputData.equals("connect")) { // 이게 바로 프로토콜 대화 형식을 맞추는 것
 				chatManager.setConnectedWithOpponent(true);
 				System.out.println("[상대방과 매칭완료]");
-			} else if (inputData.equals("disconnectedwithopponent")) {
+			} else if (inputData.equals("disconnect")) {
 				chatManager.setConnectedWithOpponent(false);
 				System.out.println("[상대방과 연결종료]");
 			} else {
-				chatManager.read(inputData); // 이게 이제 인터페이스에 데이터 전달
+				chatManager.read(inputData);
 			}
 		}
 	}
 	
-	/**
-	 * <pre>
-	 * 설명 : 소켓으로 부터 데이터를 받아 String 형태로 만들어 전달해주는 메소드 / 데이터 전달받아 가공하는 성능 높이려면 이 메소드 처리
-	 * <pre>
-	 *
-	 * @author	Dahan Choi
-	 * @return	전달된 문자열
-	 * @throws	인코딩에 대한 예외처리
-	 */
+	public void setInputStream(InputStream is) {
+		this.is = is;
+	}
+	
+	public void setChatManager(ChatManager chatManager) {
+		this.chatManager = chatManager;
+	}
+	
 	private String getInput() {
 		try {
 			LinkedList<Byte> byteArrList = new LinkedList<Byte>();

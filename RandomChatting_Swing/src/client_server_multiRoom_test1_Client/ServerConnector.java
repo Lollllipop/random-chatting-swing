@@ -14,16 +14,15 @@ import java.net.UnknownHostException;
  * @author Dahan Choi
  */
 public class ServerConnector{
-	
 	// 필드
+	private static final String HOST = "localhost";
+	private static final int 	PORT = 58001;
+	
 	private InputListener 	inputListener 	= null;
 	private OutputListener	outputListener 	= null;
 	private Socket 			socket 			= null;
 	private OutputStream 	os 				= null;
 	private InputStream 	is 				= null;
-	
-	private String 	HOST = "localhost";
-	private int 	PORT = 58001;
 	
 	// Singleton
 	private static ServerConnector instance; 
@@ -54,11 +53,11 @@ public class ServerConnector{
 			is = socket.getInputStream();
 			
 			outputListener 	= OutputListener.getInstance();
-			inputListener 	= new InputListener(is);
+			inputListener 	= InputListener.getInstance();
 			
 			outputListener.setOutputStream(os);
-			
-			// 대화 시작
+			inputListener.setInputStream(is);
+		
 			inputListener.start();
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
@@ -67,15 +66,6 @@ public class ServerConnector{
 		}
 	}
 
-	
-	/**
-	 * <pre>
-	 * 설명 : 서버와 연결을 끊어주는 메소드
-	 * <pre>
-	 *
-	 * @author	Dahan Choi
-	 * @throws	OutputStream과 InputStream이 socket이 끊어지기 전에 끊어지면 에러 발생 가능성 존재하기 때문에 IOException 처리를 함
-	 */
 	public void disconnect() {
 		try {
 			os.close(); // 에러 발생 가능성 있음 조심

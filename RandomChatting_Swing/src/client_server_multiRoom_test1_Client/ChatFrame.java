@@ -6,12 +6,12 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class ChatFrame extends JFrame implements ActionListener{
+	private static final long serialVersionUID = 1L;
 	
 	JTextArea 	chatArea		= null;
 	JTextField	chatField		= null;
@@ -19,7 +19,8 @@ public class ChatFrame extends JFrame implements ActionListener{
 	JPanel		chatPanel		= null;
 	JPanel		inputPanel		= null;
 	
-	ChatManager chatManager = ChatManager.getInstance();
+	ChatManager 	chatManager 	= null;
+	InputListener 	inputListener 	= InputListener.getInstance();
 	
 	ChatFrame() {
 		chatArea 		= new JTextArea(20, 28);
@@ -44,7 +45,8 @@ public class ChatFrame extends JFrame implements ActionListener{
 		this.add(chatPanel);
 		this.add(inputPanel);
 		
-		chatManager.setChatArea(chatArea);
+		chatManager = new ChatManager(chatArea);
+		inputListener.setChatManager(chatManager);
 	
 		this.setVisible(true);
 	}

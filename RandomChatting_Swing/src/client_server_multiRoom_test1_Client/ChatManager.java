@@ -10,31 +10,15 @@ import javax.swing.JTextArea;
  * @author Dahan Choi
  */
 public class ChatManager {
-	
 	// 필드
 	private boolean 		isConnectedWithOpponent = false;
 	private OutputListener 	outputListener 			= OutputListener.getInstance();
 	private JTextArea		chatArea				= null;
 	
-	// Singleton
-	public static ChatManager instance;
-	
-	private ChatManager() {};
-	
-	public static ChatManager getInstance() {
-		if (instance == null) {
-			synchronized (ChatManager.class) {
-				if(instance == null) {
-					instance = new ChatManager();
-				}
-			}
-		}
-		return instance;
-	}
-	
-	public void setChatArea(JTextArea chatArea) {
+	// 생성자
+	public ChatManager(JTextArea chatArea) {
 		this.chatArea = chatArea;
-	}
+	};
 	
 	// 메소드
 	public boolean isConnectedWithOpponent() {
@@ -51,6 +35,7 @@ public class ChatManager {
 	
 	public void write(String message) {
 		if (isConnectedWithOpponent) {
+			chatArea.append("(나) : " + message);
 			outputListener.outputMessage(message);	
 		}
 	}
