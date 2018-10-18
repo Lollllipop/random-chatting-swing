@@ -16,17 +16,13 @@ import java.util.LinkedList;
  */
 public class Client {
 	
-	// 필드
 	private Socket 				socket;
 	private ClientWorkThread 	workThread;
-	private Room 				connectedRoom;
 	private InputStream 		is;
 	private OutputStream 		os; 
 	
-	// 생성자
 	public Client(Socket socket) {
 		try {
-			this.socket 		= socket;
 			this.is 			= socket.getInputStream();
 			this.os 			= socket.getOutputStream();
 			this.workThread		= new ClientWorkThread(this);
@@ -37,20 +33,17 @@ public class Client {
 		}
 	}
 	
-	// 메소드
 	private void setWorkThreadtoThreadPool(Runnable workThread) {
 		TaskThreadPool.getInstance().submitTask(workThread);
 	}
 	
 	public void setConnectedRoom(Room room) {
-		this.connectedRoom = room;
 		this.workThread.setRoom(room);
 	}
 	
-	public void sendMessage(String message) {
+	public void sendMessage(byte[] messageBytes) {
 		try {
-			byte[] bytes = message.getBytes("UTF-8");
-			os.write(bytes);
+			os.write(messageBytes);
 			os.flush(); 
 		} catch (IOException e) {
 			e.printStackTrace();

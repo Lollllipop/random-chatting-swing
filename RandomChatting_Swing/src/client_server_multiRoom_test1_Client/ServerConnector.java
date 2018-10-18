@@ -14,7 +14,7 @@ import java.net.UnknownHostException;
  * @author Dahan Choi
  */
 public class ServerConnector{
-	// 필드
+	
 	private static final String HOST = "localhost";
 	private static final int 	PORT = 58001;
 	
@@ -24,7 +24,6 @@ public class ServerConnector{
 	private OutputStream 	os 				= null;
 	private InputStream 	is 				= null;
 	
-	// Singleton
 	private static ServerConnector instance; 
 	
 	private ServerConnector() {};
@@ -40,7 +39,6 @@ public class ServerConnector{
 		return instance;
 	}
 	
-	// 메소드
 	public void connect() {
 		try {
 			System.out.println("[연결 요청]");

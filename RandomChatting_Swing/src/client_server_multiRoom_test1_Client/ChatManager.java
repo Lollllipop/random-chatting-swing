@@ -10,17 +10,15 @@ import javax.swing.JTextArea;
  * @author Dahan Choi
  */
 public class ChatManager {
-	// 필드
+	
 	private boolean 		isConnectedWithOpponent = false;
 	private OutputListener 	outputListener 			= OutputListener.getInstance();
 	private JTextArea		chatArea				= null;
 	
-	// 생성자
 	public ChatManager(JTextArea chatArea) {
 		this.chatArea = chatArea;
 	};
 	
-	// 메소드
 	public boolean isConnectedWithOpponent() {
 		return isConnectedWithOpponent;
 	}

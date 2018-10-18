@@ -12,12 +12,14 @@ import java.util.LinkedList;
  *
  * @author Dahan Choi
  */
-public class InputListener extends Thread{
-	// 필드
-	private InputStream is 			= null;
-	private ChatManager chatManager = null;
+public class InputListener extends Thread {
 	
-	// 생성자
+	private static final String ENCODING_TYPE = "UTF-8";
+	
+	private InputStream 	is 				= null;
+	private ChatManager 	chatManager 	= null;
+	private ProtocolManager protocolManager	= new ProtocolManager();
+	
 	private static InputListener instance;
 	
 	private InputListener() {};
@@ -33,19 +35,20 @@ public class InputListener extends Thread{
 		return instance;
 	}
 	
-	// 메소드
 	public void run() {
 		while (true) {
 			String inputData = getInput();
 			
-			if (inputData.equals("connect")) { // 이게 바로 프로토콜 대화 형식을 맞추는 것
+			// 여기서 protocol processing 처리를 해줘야 할듯
+			String header 	= protocolManager.getHeader(inputData);
+			String body 	= protocolManager.getBody(inputData);
+			
+			if (header.equals(ProtocolManager.CONNECT_WITH_OPPONENT)) {
 				chatManager.setConnectedWithOpponent(true);
-				System.out.println("[상대방과 매칭완료]");
-			} else if (inputData.equals("disconnect")) {
+			} else if (header.equals(ProtocolManager.DISCONNECT_WITH_OPPONENT)) {
 				chatManager.setConnectedWithOpponent(false);
-				System.out.println("[상대방과 연결종료]");
 			} else {
-				chatManager.read(inputData);
+				chatManager.read(body);
 			}
 		}
 	}
@@ -60,31 +63,28 @@ public class InputListener extends Thread{
 	
 	private String getInput() {
 		try {
-			LinkedList<Byte> byteArrList = new LinkedList<Byte>();
+			LinkedList<Byte> byteList = new LinkedList<Byte>();
 			
 			byte inputByteData;
 			
-			String resultMessage 	= null;
-			String nickName 		= null;
-			String message 			= null;
+			String message = null;
 			
 			while((inputByteData = (byte)is.read()) != -1) {
-				byteArrList.add(inputByteData);
+				byteList.add(inputByteData);
 				if (is.available() == 0) {
 					break;
 				};
 			}
 			
-			byte[] arrByteData  = new byte[byteArrList.size()];
+			byte[] arrByteData  = new byte[byteList.size()];
 			
 			for(int i = 0; i < arrByteData.length; i++) {
-				arrByteData[i] = byteArrList.poll();
+				arrByteData[i] = byteList.poll();
 			}
 			
-			resultMessage = new String(arrByteData, "UTF-8");
-			int commaIndex = resultMessage.indexOf(",");
-			nickName = resultMessage.substring(0, commaIndex);
-			message = resultMessage.substring(commaIndex + 1, resultMessage.length());
+			message = new String(arrByteData, ENCODING_TYPE);
+			
+			return message;
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

@@ -9,11 +9,9 @@ package client_server_multiRoom_test1_Server;
  */
 public class Room {
 	
-	// 필드
 	private Client client1;
 	private Client client2;
 	
-	// 생성자
 	Room(Client client1, Client client2) {
 		System.out.println("[매칭 성공]");
 		this.client1 = client1;
@@ -23,12 +21,11 @@ public class Room {
 		client2.setConnectedRoom(this);
 	}
 	
-	// 메소드
-	public void sendMassageToOpponent(Client client, String message) {
+	public void sendMassageToOpponent(Client client, byte[] messageBytes) {
 		if (client == client1) {
-			client2.sendMessage(message);
+			client2.sendMessage(messageBytes);
 		} else {
-			client1.sendMessage(message);
+			client1.sendMessage(messageBytes);
 		}
 	}
 }

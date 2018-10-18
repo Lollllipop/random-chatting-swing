@@ -14,15 +14,11 @@ import java.net.Socket;
  */
 public class Server {
 	
-	// 필드
-	private ServerSocket serverSocket;
-	
+	private ServerSocket 			serverSocket			= null;
 	private ConnectionRequestQueue 	connectionRequestQueue 	= ConnectionRequestQueue.getInstance();
 	private Clients					clients					= Clients.getInstance();
-	private RoomManager 			roomManager 			= RoomManager.getInstance();
 	private TaskThreadPool			taskThreadPool			= TaskThreadPool.getInstance();
 	
-	// 메소드
 	public void start() {
 		System.out.println("[서버 실행]");
 		

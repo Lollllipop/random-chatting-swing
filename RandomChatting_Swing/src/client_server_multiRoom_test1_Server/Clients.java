@@ -1,10 +1,5 @@
 package client_server_multiRoom_test1_Server;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.Socket;
 import java.util.*;
 
 /**
@@ -15,11 +10,9 @@ import java.util.*;
  * @author Dahan Choi
  */
 public class Clients {
-		
-	// 필드
+	
 	private ArrayList<Client> clients = new ArrayList<Client>();
 	 
-	// Singleton
 	private static Clients instance;
 	 
 	private Clients() {};
@@ -35,7 +28,6 @@ public class Clients {
 		return instance;
 	}
 	 
-	// 메소드
 	public void removeClient(Client client) {
 		this.clients.remove(client);
 	}

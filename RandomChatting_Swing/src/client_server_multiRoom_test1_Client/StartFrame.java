@@ -12,6 +12,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class StartFrame extends JFrame implements ActionListener {
+
+	private static final long serialVersionUID = 1L;
 	
 	JLabel 	titleLabel 		= null;
 	JButton	startButton		= null;

@@ -1,6 +1,5 @@
 package client_server_multiRoom_test1_Server;
 
-import java.net.Socket;
 import java.util.concurrent.*;
 
 /**
@@ -12,10 +11,8 @@ import java.util.concurrent.*;
  */
 public class TaskThreadPool {
 	
-	// 필드
 	ExecutorService executorService;
 	
-	// Singleton
 	private static TaskThreadPool instance;
 	
 	private TaskThreadPool() {
@@ -33,7 +30,6 @@ public class TaskThreadPool {
 		return instance;
 	}
 	
-	// 메소드
 	public void submitTask(Runnable runnable) {
 		this.executorService.submit(runnable);
 	}

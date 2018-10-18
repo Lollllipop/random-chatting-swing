@@ -12,11 +12,9 @@ import java.util.ArrayList;
 public class RoomManager { 
 	// TODO 커넥트 된 것을 클라이언트에 알려줘야 함
 	
-	// 필드
 	private ArrayList<Room> Rooms 		= new ArrayList<Room>();
 	private int 			roomCount 	= 0;
 	
-	// Singleton
 	private static RoomManager instance;
 	
 	private RoomManager() {};
@@ -32,13 +30,16 @@ public class RoomManager {
 		return instance;
 	}
 	
-	// 메소드
 	public void createRoom(Client client1, Client client2) {
 		Rooms.add(new Room(client1, client2));
 	}
 	
 	public void deleteRoom(Room room) {
 		Rooms.remove(room);
+	}
+	
+	public int getRoomCount() {
+		return this.roomCount;
 	}
 
 }
