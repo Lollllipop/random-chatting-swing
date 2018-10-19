@@ -10,7 +10,6 @@ import java.util.ArrayList;
  * @author Dahan Choi
  */
 public class RoomManager { 
-	// TODO 커넥트 된 것을 클라이언트에 알려줘야 함
 	
 	private ArrayList<Room> Rooms 		= new ArrayList<Room>();
 	private int 			roomCount 	= 0;
@@ -31,7 +30,12 @@ public class RoomManager {
 	}
 	
 	public void createRoom(Client client1, Client client2) {
-		Rooms.add(new Room(client1, client2));
+		ServerProtocolManager protocolManager = new ServerProtocolManager();
+		Room room = new Room(client1, client2);
+		Rooms.add(room);
+		
+		byte[] messageBytes = protocolManager.makeConnectMessage();
+		room.sendMassageToAll(messageBytes);
 	}
 	
 	public void deleteRoom(Room room) {

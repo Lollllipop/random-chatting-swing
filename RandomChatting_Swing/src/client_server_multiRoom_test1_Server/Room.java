@@ -21,11 +21,19 @@ public class Room {
 		client2.setConnectedRoom(this);
 	}
 	
-	public void sendMassageToOpponent(Client client, byte[] messageBytes) {
+	public void sendMassageToOpponent(Client client, String message) {
+		ServerProtocolManager protocolManager = new ServerProtocolManager();
+		
 		if (client == client1) {
-			client2.sendMessage(messageBytes);
+			client2.sendMessage(protocolManager.makeMessage(message));
 		} else {
-			client1.sendMessage(messageBytes);
+			client1.sendMessage(protocolManager.makeMessage(message));
 		}
 	}
+	
+	public void sendMassageToAll(byte[] messageBytes) {
+		client1.sendMessage(messageBytes);
+		client2.sendMessage(messageBytes);
+	}
+	
 }

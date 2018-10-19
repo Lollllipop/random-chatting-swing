@@ -30,10 +30,12 @@ public class ClientWorkThread implements Runnable {
 		return room;
 	}
 	
-	private byte[] receiveMessage() {
+	private String receiveMessage() {
 		 try {
 			LinkedList<Byte> byteList = new LinkedList<Byte>();
-			byte inputByteData;
+			
+			String 	message;
+			byte 	inputByteData;
 			
 			try {
 				while((inputByteData = (byte)is.read()) != -1) {
@@ -52,7 +54,9 @@ public class ClientWorkThread implements Runnable {
 				arrByteData[i] = byteList.poll();
 			}
 			
-			return arrByteData;
+			message = new String(arrByteData, Config.CHARACTER_ENCODING_TYPE);
+			
+			return message;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

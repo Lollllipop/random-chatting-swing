@@ -3,9 +3,7 @@ package client_server_multiRoom_test1_Server;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.Socket;
-import java.util.LinkedList;
 
 /**
  * <pre>
@@ -16,7 +14,7 @@ import java.util.LinkedList;
  */
 public class Client {
 	
-	private Socket 				socket;
+//	private Socket 				socket;
 	private ClientWorkThread 	workThread;
 	private InputStream 		is;
 	private OutputStream 		os; 

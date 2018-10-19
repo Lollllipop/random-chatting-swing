@@ -18,7 +18,7 @@ public class InputListener extends Thread {
 	
 	private InputStream 	is 				= null;
 	private ChatManager 	chatManager 	= null;
-	private ProtocolManager protocolManager	= new ProtocolManager();
+	private ClientProtocolManager clientProtocolManager	= new ClientProtocolManager();
 	
 	private static InputListener instance;
 	
@@ -39,13 +39,12 @@ public class InputListener extends Thread {
 		while (true) {
 			String inputData = getInput();
 			
-			// 여기서 protocol processing 처리를 해줘야 할듯
-			String header 	= protocolManager.getHeader(inputData);
-			String body 	= protocolManager.getBody(inputData);
+			String header 	= clientProtocolManager.getHeader(inputData);
+			String body 	= clientProtocolManager.getBody(inputData);
 			
-			if (header.equals(ProtocolManager.CONNECT_WITH_OPPONENT)) {
+			if (header.equals(ClientProtocolManager.CONNECT_WITH_OPPONENT)) {
 				chatManager.setConnectedWithOpponent(true);
-			} else if (header.equals(ProtocolManager.DISCONNECT_WITH_OPPONENT)) {
+			} else if (header.equals(ClientProtocolManager.DISCONNECT_WITH_OPPONENT)) {
 				chatManager.setConnectedWithOpponent(false);
 			} else {
 				chatManager.read(body);
